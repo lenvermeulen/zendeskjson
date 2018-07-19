@@ -1,0 +1,53 @@
+Imports System
+Imports System.Data
+Imports System.Configuration
+Imports System.Net
+Imports System.IO
+Imports System.Xml
+Imports System.Xml.Linq
+Imports System.Text
+
+
+
+Module Module1
+
+
+
+    Sub Main()
+
+        'Dim result As DataTable = GetTickets("5007")
+        Dim wc As New System.Net.WebClient()
+        Dim strZenDeskUsername As String = "len@datasmart.com.au"
+        Dim strZenDeskPassword As String = "blah"
+        Dim strZenDeskAPIURL As String = "https://dsbs.zendesk.com/api/v2/tickets/5007.json"
+        Dim request As System.Net.HttpWebRequest = DirectCast(System.Net.HttpWebRequest.Create(strZenDeskAPIURL), System.Net.HttpWebRequest)
+        request.ContentType = "application/json"
+        request.Credentials = New System.Net.NetworkCredential(strZenDeskUsername, strZenDeskPassword)
+        request.Headers("Authorization") = strZenDeskUsername & ":" & strZenDeskPassword
+        request.PreAuthenticate = True
+        request.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml"
+        request.ContentLength = 0
+        Dim resp As System.Net.HttpWebResponse = DirectCast(request.GetResponse(), System.Net.HttpWebResponse)
+        Dim reader As New System.IO.StreamReader(resp.GetResponseStream())
+        Dim tmp As String = reader.ReadToEnd()
+        Console.WriteLine(tmp.ToString)
+
+
+
+
+        Dim stream As New StringReader(tmp)
+
+        'Dim ds As New DataSet()
+
+        'ds.ReadXml(stream)
+
+
+
+        'Dim dt As DataTable = ds.Tables("user")
+
+    End Sub
+
+
+
+
+End Module
